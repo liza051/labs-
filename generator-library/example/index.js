@@ -1,9 +1,6 @@
-import { bookGenerator, readBooksWithTimeout } from "../library/generators.js";
+import { bookGenerator, readBooksWithTimeout } from "library-project";
 
-const gen = bookGenerator();
-
-// Виводимо перші книги
-console.log(gen.next().value);
-console.log(gen.next().value);
-
-readBooksWithTimeout(promoStream, 10);
+const myLibrary = ["Одного разу розбите серце","Гаррі Поттер","Відьмак","Маленький принц","Завжди і до віку","Балада про недовго й нещасливо","Прокляття справжнього кохання","Безсила","Безросудна","Безсердечний мисливець"];
+const promoStream = bookGenerator(myLibrary);
+// Запускаємо на 10 секунд 
+readBooksWithTimeout(promoStream,10);

@@ -1,0 +1,7 @@
+{
+  "name": "library-project",
+  "type": "module",
+  "dependencies": {
+    "library-project": "file:.."
+  }
+}
