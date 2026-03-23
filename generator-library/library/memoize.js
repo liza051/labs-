@@ -1,5 +1,7 @@
-export function memoize(fn) {
+export function memoize(fn, options ={}) {
     const cache = new Map();
+    
+    const maxSize = options.maxSize || Infinity;
 
     return function (...args) {
 
@@ -10,6 +12,15 @@ export function memoize(fn) {
         }
 
         const result = fn(...args);
+
+        if (cache.size >= maxSize) {
+           
+            const firstKey = cache.keys().next().value;
+
+            cache.delete(firstKey);
+        }
+
+
 
         cache.set(key, result);
 
