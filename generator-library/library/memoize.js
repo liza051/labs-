@@ -8,16 +8,22 @@ export function memoize(fn, options ={}) {
         const key = JSON.stringify(args);
 
         if (cache.has(key)) {
-            return cache.get(key);
+            const value = cache.get(key);
+
+            cache.delete(key);
+
+            cache.set(key, value);
+
+            return value;
         }
 
         const result = fn(...args);
 
         if (cache.size >= maxSize) {
            
-            const firstKey = cache.keys().next().value;
+            const oldestKey  = cache.keys().next().value;
 
-            cache.delete(firstKey);
+            cache.delete(oldestKey);
         }
 
 
