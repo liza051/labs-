@@ -3,19 +3,28 @@ export function memoize(fn, options ={}) {
     
     const maxSize = options.maxSize || Infinity;
 
+    const ttl = options.ttl || null
+
     return function (...args) {
 
         const key = JSON.stringify(args);
 
+        const now = Date.now();
+
         if (cache.has(key)) {
-            const value = cache.get(key);
+            const entry = cache.get(key);
+
+            if (!ttl|| now - entry.time < ttl ){
 
             cache.delete(key);
 
-            cache.set(key, value);
+            cache.set(key, entry);
 
-            return value;
+            return entry.value;
         }
+
+        cache.delete(key);
+    }
 
         const result = fn(...args);
 
@@ -28,7 +37,10 @@ export function memoize(fn, options ={}) {
 
 
 
-        cache.set(key, result);
+        cache.set(key, {
+            value: result,
+            time: now
+        });
 
         return result;
     };
