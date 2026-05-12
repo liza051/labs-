@@ -2,11 +2,30 @@ export function log(level = "INFO") {
 
     return function (fn) {
 
-        return function (...args) {
+        return async function (...args) {
 
-            console.log(`[${level}]`, args);
+            const time = new Date().toISOString();
 
-            return fn(...args);
+            try {
+
+                const result = await fn(...args);
+
+                console.log(`[${level}] ${time}`, {
+                    args,
+                    result
+                });
+
+                return result;
+
+            } catch (err) {
+
+                console.error(`[ERROR] ${time}`, {
+                    args,
+                    error: err.message
+                });
+
+                throw err;
+            }
         };
     };
 }
