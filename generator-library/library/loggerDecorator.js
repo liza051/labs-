@@ -10,10 +10,12 @@ export function log(level = "INFO") {
 
                 const result = await fn(...args);
 
-                console.log(`[${level}] ${time}`, {
+              if (level !== "ERROR") {
+                    console.log(`[${level}] ${time}`, {
                     args,
                     result
                 });
+            }
 
                 return result;
 
@@ -28,4 +30,5 @@ export function log(level = "INFO") {
             }
         };
     };
+    
 }
