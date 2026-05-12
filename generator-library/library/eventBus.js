@@ -27,6 +27,18 @@ export class EventBus {
 
         const handlers = this.listeners[event] || [];
 
-        handlers.forEach(h => h(data));
+        if (event === "error" && handlers.length === 0) {
+            throw new Error("Unhandled error event");
+        }
+
+        handlers.forEach(handler => {
+
+            try {
+                handler(data);
+            } catch (err) {
+                console.error("Listener error:", err);
+            }
+
+        });
     }
-}
+}  
